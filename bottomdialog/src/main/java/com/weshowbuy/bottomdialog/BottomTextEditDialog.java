@@ -8,7 +8,12 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.ruffian.library.widget.RLinearLayout;
+
+import java.util.concurrent.locks.ReentrantLock;
 
 import me.shaohui.bottomdialog.BaseBottomDialog;
 
@@ -25,6 +30,8 @@ public class BottomTextEditDialog extends BaseBottomDialog {
     private EditText mEditText;
     private TextView tv_complete;
     private TextView tv_cancel;
+    private LinearLayout ll_bottom;
+    private RLinearLayout rl_container;
 
     /**
      * 文本内容
@@ -36,9 +43,13 @@ public class BottomTextEditDialog extends BaseBottomDialog {
      */
     private String mHint = "";
 
-    private int mCompleteTextColor = getResources().getColor(R.color.black);
+    private int mBgcolor = -1;
 
-    private int mCancelTextColor = getResources().getColor(R.color.black);
+    private int mCompleteTextColor = -1;
+
+    private int mCancelTextColor = -1;
+
+    private float mRadius = 10.f;
 
     /**
      * 最大输入数  默认无限制
@@ -67,9 +78,26 @@ public class BottomTextEditDialog extends BaseBottomDialog {
         mEditText = v.findViewById(R.id.edit_content);
         tv_complete = v.findViewById(R.id.tv_complete);
         tv_cancel = v.findViewById(R.id.tv_cancel);
+        ll_bottom = v.findViewById(R.id.ll_bottom);
+        rl_container = v.findViewById(R.id.rl_container);
+
+        rl_container.getHelper().setCornerRadius(mRadius);
+
+        if (mBgcolor == -1) {
+            mBgcolor = getResources().getColor(R.color.white);
+        }
+
+        if (mCompleteTextColor == -1) {
+            mCompleteTextColor = getResources().getColor(R.color.black);
+        }
+
+        if (mCancelTextColor == -1) {
+            mCancelTextColor = getResources().getColor(R.color.black);
+        }
 
         tv_complete.setTextColor(mCompleteTextColor);
         tv_cancel.setTextColor(mCancelTextColor);
+        ll_bottom.setBackgroundColor(mBgcolor);
 
         if (mMaxLength > 0) {
             InputFilter[] filters = {new InputFilter.LengthFilter(mMaxLength)};
@@ -173,8 +201,18 @@ public class BottomTextEditDialog extends BaseBottomDialog {
         return this;
     }
 
+    public BottomTextEditDialog setBottomBgColor(int color) {
+        mBgcolor = color;
+        return this;
+    }
+
     public BottomTextEditDialog setCancelButtonTextColor(int color) {
         mCancelTextColor = color;
+        return this;
+    }
+
+    public BottomTextEditDialog setCornerRadius(float radius) {
+        mRadius = radius;
         return this;
     }
 
