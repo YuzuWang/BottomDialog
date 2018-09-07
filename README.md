@@ -12,3 +12,5 @@
                         .setDestoryTitle("删除按钮")
                         .show();
 ```
+
+![image](https://github.com/Edwares/BottomDialog/blob/master/Screenshot_1536305223.png)
